@@ -1,0 +1,42 @@
+#:kivy 1.0.9
+
+<HockeyGame>:
+    
+    canvas:
+        Color:
+            rgba: 0,1,0,1
+        Rectangle:
+            pos: (root.width/2)-175, root.height*3/4 - 200
+            size: 350, 100
+
+        Rectangle:
+            pos: (root.width/2)-175, root.height*1/2 - 200
+            size: 350, 100
+        
+
+    Label:
+        color: (1,1,1,1)
+        font_size:70
+        center_x: root.width/2
+        top: root.top - 50
+        text: str("Difficulty")
+
+    Label:
+        color: (1,1,1,1)
+        font_size:60
+        center_x: root.width/2
+        top: root.height*3/4 - 100
+        text: str("Normal")
+    
+    Label:
+        color: (1,1,1,1)
+        font_size:60
+        center_x: root.width/2
+        top: root.height*1/2 -100
+        text: str("Impossible")
+    
+    
+    
+    
+    
+    
