@@ -1,0 +1,84 @@
+#:kivy 1.0.9
+<DifficultyScreen>:
+    
+    canvas:
+        Color:
+            rgba: 0,1,0,1
+        Rectangle:
+            pos: (root.width/2)-175, root.height*3/4 - 200
+            size: 350, 100
+        Color:
+            rgba: 1,0,0,1
+        Rectangle:
+            pos: (root.width/2)-175, root.height*1/2 - 200
+            size: 350, 100
+
+    Label:
+        color: (1,1,1,1)
+        font_size:70
+        center_x: root.width/2
+        top: root.top - 50
+        text: str("Difficulty")
+
+    Label:
+        color: (1,1,1,1)
+        font_size:60
+        center_x: root.width/2
+        top: root.height*3/4 - 100
+        text: str("Normal")
+    
+    Label:
+        color: (1,1,1,1)
+        font_size:60
+        center_x: root.width/2
+        top: root.height*1/2 -100
+        text: str("Impossible")
+    
+    
+<HockeyGame>:
+    canvas:
+        Color: 
+            rgba: 0,0,1,1
+        # top player goal
+        Ellipse:
+            pos: root.width/2 - 62.5, root.height - 37.5
+            size: 125, 125
+
+        Color: 
+            rgba: 1,0,0,1
+        # bottom player goal
+        Ellipse:
+            pos: root.width/2 - 62.5, -87.5
+            size: 125, 125
+
+        Color: 
+            rgba: 1,1,1,1
+        # middle circle
+        Ellipse:
+            pos: root.width/2 - 62.5, root.height/2 -62.5
+            size: 125, 125
+
+        Color:
+            rgba: 0,0,0,1
+        #inner middle circle
+        Ellipse:
+            pos: root.width/2 - 55, root.height/2 -55
+            size: 110, 110
+        #inner top player goal
+        Ellipse:
+            pos: root.width/2 - 55, root.height - 32
+            size: 110, 110
+        #inner bottom player goal
+        Ellipse:
+            pos: root.width/2 - 55, -81
+            size: 110, 110
+
+        Color: 
+            rgba: 1,1,1,1
+        #center line
+        Rectangle:
+            pos: 0, root.height/2 -3.75
+            size: root.width, 7.5
+    
+    
+    
