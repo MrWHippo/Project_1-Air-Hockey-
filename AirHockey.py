@@ -15,18 +15,21 @@ class HockeyGame(Widget):
         pass
 
 class HockeyRoot(FloatLayout):
-    
+    def __init__(self, **kwargs):
+        super(HockeyRoot, self).__init__(**kwargs)
+        self.add_widget(DifficultyScreen())
+        #self.add_widget(HockeyGame())
+
     def update(self, dt):
         pass
-    
+
 
 class HockeyApp(App):
     def build(self):
-        Game = HockeyGame()
-        Menu = DifficultyScreen()
+        #Game = HockeyGame()
+        #Menu = DifficultyScreen()
         #Clock.schedule_interval(Game.update, 1.0 / 60.0)
-        #HockeyRoot.add_widget(Menu)
-        #HockeyRoot.add_widget(Game)
+        Game = HockeyRoot()
         return Game
     
 if __name__ == '__main__':

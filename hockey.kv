@@ -1,17 +1,5 @@
 #:kivy 1.0.9
 <DifficultyScreen>:
-    
-    canvas:
-        Color:
-            rgba: 0,1,0,1
-        Rectangle:
-            pos: (root.width/2)-175, root.height*3/4 - 200
-            size: 350, 100
-        Color:
-            rgba: 1,0,0,1
-        Rectangle:
-            pos: (root.width/2)-175, root.height*1/2 - 200
-            size: 350, 100
 
     Label:
         color: (1,1,1,1)
@@ -20,19 +8,22 @@
         top: root.top - 50
         text: str("Difficulty")
 
-    Label:
-        color: (1,1,1,1)
+    Button:
+        background_color: (0,1,0,1)
         font_size:60
-        center_x: root.width/2
-        top: root.height*3/4 - 100
+        pos: (root.width/2)-175, root.height*3/4 - 200
+        size: 350, 100
         text: str("Normal")
-    
-    Label:
-        color: (1,1,1,1)
+        on_press: root.CheckClick(1)
+
+    Button:
+        background_color: (1,0,0,1)
         font_size:60
-        center_x: root.width/2
-        top: root.height*1/2 -100
+        pos: (root.width/2)-175, root.height*1/2 - 200
+        size: 350, 100
         text: str("Impossible")
+        on_press: root.CheckClick(2)
+
     
     
 <HockeyGame>:
@@ -79,6 +70,24 @@
         Rectangle:
             pos: 0, root.height/2 -3.75
             size: root.width, 7.5
+    #Label for player 1 score
+    Label:
+        color: 0,0,1,1
+        font_size:60
+        center_x: 60
+        top: root.height*1/2 + 100
+        #text: str(root.player1.score)
+        text: str("0")
+    #Label for player 2 score
+    Label:
+        color: 1,0,0,1
+        font_size:60
+        center_x: 60
+        top: root.height*1/2
+        #text: str(root.player1.score)
+        text: str("0")
+
+            
     
     
     
