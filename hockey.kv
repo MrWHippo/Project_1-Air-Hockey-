@@ -24,7 +24,29 @@
         text: str("Impossible")
         on_press: root.CheckClick(2)
 
-    
+<Players>:
+    canvas:
+        # top player
+        Color:
+            rgba: 1,0,0,1
+        Ellipse:
+            pos: root.width/2 - 20, root.height - 90
+            size: 40,40
+        
+        # bottom player
+        Color:
+            rgba: 0,0,1,1
+        Ellipse:
+            pos: root.width/2 - 20, 50
+            size: 40, 40
+
+<HockeyPuck>:
+    canvas:
+        Color:
+            rgba: 1,1,1,1 
+        Ellipse:
+            pos: root.width/2 - 12.5, root.height/2 - 12.5
+            size: 25, 25 
     
 <HockeyGame>:
     canvas:
@@ -70,6 +92,7 @@
         Rectangle:
             pos: 0, root.height/2 -3.75
             size: root.width, 7.5
+        
     #Label for player 1 score
     Label:
         color: 0,0,1,1
@@ -86,6 +109,7 @@
         top: root.height*1/2
         #text: str(root.player1.score)
         text: str("0")
+
 
             
     

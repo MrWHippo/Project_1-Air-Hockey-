@@ -19,6 +19,8 @@ class HockeyRoot(FloatLayout):
     def changescreen(self, num):
         self.clear_widgets()
         self.add_widget(HockeyGame())
+        self.add_widget(Players())
+        self.add_widget(HockeyPuck())
     
     def update(self, dt):
         pass
@@ -26,6 +28,12 @@ class HockeyRoot(FloatLayout):
 class HockeyGame(Widget):
     def update(self, dt):
         pass
+
+class Players(Widget):
+    pass
+    
+class HockeyPuck(Widget):
+    pass
 
 
 class HockeyApp(App):
