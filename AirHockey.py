@@ -26,7 +26,6 @@ class HockeyRoot(FloatLayout):
         pass
 
 class HockeyGame(Widget):
-
     def update(self, dt):
         pass
 
