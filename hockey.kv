@@ -25,30 +25,28 @@
         on_press: root.CheckClick(2)
 
 <Players>:
+    size: 40, 40
     canvas:
-        # top player
         Color:
-            rgba: 1,0,0,1
+            rgba: self.Color
         Ellipse:
-            pos: root.width/2 - 20, root.height - 90
-            size: 40,40
+            pos: self.pos
+            size: self.size
         
-        # bottom player
-        Color:
-            rgba: 0,0,1,1
-        Ellipse:
-            pos: root.width/2 - 20, 50
-            size: 40, 40
 
 <HockeyPuck>:
+    size: 25, 25 
     canvas:
         Color:
-            rgba: 1,1,1,1 
+            rgba: self.Color
         Ellipse:
-            pos: root.width/2 - 12.5, root.height/2 - 12.5
-            size: 25, 25 
+            pos: self.pos
+            size: self.size
     
 <HockeyGame>:
+    puck: hockey_puck
+    player1: player_top
+    player2: player_bottom
     canvas:
         Color: 
             rgba: 0,0,1,1
@@ -109,6 +107,20 @@
         top: root.height*1/2
         #text: str(root.player1.score)
         text: str("0")
+    
+    HockeyPuck:
+        id: hockey_puck
+        center: self.parent.center
+        
+    Players:
+        id: player_top
+        x: root.width/2 - self.width/2
+        center_y: root.height - self.height
+        
+    Players:
+        id: player_bottom
+        x: root.width/2 - self.width/2
+        center_y: self.height
 
 
             
