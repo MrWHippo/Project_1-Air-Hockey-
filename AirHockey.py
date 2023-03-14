@@ -48,25 +48,29 @@ class HockeyPuck(Widget):
         self.pos = Vector(*self.velocity) + self.pos
 
 class HockeyRoot(FloatLayout):
+    hockeygame = ObjectProperty(None)
+    DifficultyScreen = ObjectProperty(None)
     def __init__(self, **kwargs):
         super(HockeyRoot, self).__init__(**kwargs)
         self.add_widget(DifficultyScreen())
+        self.changescreenbool = False
     
     def changescreen(self, num):
-        self.clear_widgets()
-        self.add_widget(HockeyGame())
-        #self.add_widget(Players())
-        #self.add_widget(HockeyPuck())
-        Game = HockeyGame()
-        Clock.schedule_interval(Game.update, 1.0 / 60.0)
-        return Game
+        self.changescreenbool = True
+        # need to hide/ show widgets?
+        pass
 
+    def update(self, dt):
+        if self.changescreenbool == True:
+            self.hockeygame.update(dt)
+            pass
+        pass
 
 class HockeyApp(App):
     def build(self):
         Game = HockeyGame()
         Window = HockeyRoot()
-        Clock.schedule_interval(Game.update, 1.0 / 60.0)
+        Clock.schedule_interval(Window.update, 1.0 / 60.0)
         return Window
     
 if __name__ == '__main__':
