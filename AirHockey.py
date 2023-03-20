@@ -5,6 +5,7 @@ from kivy.clock import Clock
 from kivy.properties import NumericProperty, ReferenceListProperty, ListProperty, ObjectProperty
 from kivy.vector import Vector
 from kivy.core.window import Window
+import math
 
 class DifficultyScreen(Widget):
     def CheckClick(self, num):
@@ -42,6 +43,7 @@ class HockeyGame(Widget):
 
         self.puck.move()
         self.player1.moveplayer()
+        self.aimovements()
         self.player2.moveplayer()
 
         #
@@ -60,29 +62,45 @@ class HockeyGame(Widget):
         player2difference = self.vector_between(self.player2)
 
         if player1difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
-            puckvector = Vector(self.puck.center[0], self.puck.center[1])
-            player1vector = Vector(self.player1.center[0], self.player1.center[1])
-            self.puck.velocity[0] *= -1.1
-            self.puck.velocity[1] *= -1.1
+            normalvector = Vector(self.player1.center[0]-self.puck.center[0], self.player1.center[1]-self.puck.center[1])
+            yangle = normalvector.angle(Vector(1,0))
+            xangle = normalvector.angle(Vector(0,1))
+            if yangle > -90 and yangle < 90:
+                self.puck.velocity[1] *= -1.1
+
+            if xangle < -90 or xangle > 90:
+                self.puck.velocity[0] *= -1.1
+            
             if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
                 self.puck.velocity[1] = 3
                 if self.puck.center[0] > self.player1.center[0]:
-                    self.puck.velocity[0] = (-self.puck.center[0]+self.player1.center[0])/2
+                    self.puck.velocity[0] = (-self.puck.center[0]+self.player1.center[0])/4
                 else:
-                    self.puck.velocity[0] = (self.puck.center[0]-self.player1.center[0])/2
+                    self.puck.velocity[0] = (self.puck.center[0]-self.player1.center[0])/4
         
         if player2difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
-            puckvector = Vector(self.puck.center[0], self.puck.center[1])
-            player2vector = Vector(self.player2.center[0], self.player2.center[1])
-            self.puck.velocity[0] *= -1.1
-            self.puck.velocity[1] *= -1.1
+            normalvector = Vector(self.player2.center[0]-self.puck.center[0], self.player2.center[1]-self.puck.center[1])
+            yangle = normalvector.angle(Vector(1,0))
+            xangle = normalvector.angle(Vector(0,1))
+            if yangle > -90 and yangle < 90:
+                self.puck.velocity[1] *= -1.1
+
+            if xangle < -90 or xangle > 90:
+                self.puck.velocity[0] *= -1.1
+
             if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
                 self.puck.velocity[1] = 3
                 if self.puck.center[0] > self.player1.center[0]:
-                    self.puck.velocity[0] = (-self.puck.center[0]+self.player2.center[0])/15
+                    self.puck.velocity[0] = (-self.puck.center[0]+self.player2.center[0])/4
                 else:
-                    self.puck.velocity[0] = (self.puck.center[0]-self.player2.center[0])/15
-
+                    self.puck.velocity[0] = (self.puck.center[0]-self.player2.center[0])/4
+        
+        #speed limit
+        if self.puck.velocity[0]> 5:
+                self.puck.velocity[0] = 5
+            
+        if self.puck.velocity[1]>5:
+            self.puck.velocity[0] = 5
     
     def vector_between(self, player):
         x = player.center[0] - self.puck.center[0]
@@ -124,6 +142,28 @@ class HockeyGame(Widget):
 
         return True
     
+    def aimovements(self):
+        if self.puck.center[0] > self.player2.center[0]:
+            self.player2_up = True
+        else:
+            self.player2_up = False
+
+        if self.puck.center[0] < self.player2.center[0]:
+            self.player2_down = True
+        else:
+            self.player2_down = False
+        
+        if self.puck.center[1] > self.player2.center[1]:
+            self.player2_right = True
+        else:
+            self.player2_right = False
+        
+        if self.puck.center[1] < self.player2.center[1]:
+            self.player2_left = True
+        else:
+            self.player2_left = False
+        
+
     def giveinputstatus(self):
         return self.player1_down, self.player1_up, self.player1_left, self.player1_right
 
