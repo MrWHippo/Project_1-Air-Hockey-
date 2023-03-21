@@ -31,11 +31,18 @@ class HockeyGame(Widget):
 
         self.player1.isplayer1 = True
         self.player2.isplayer1 = False
+
+        self.player1.score = 0
+        self.player2.score = 0
         
 
     def serve_puck(self, vel=(4, 0)):
         self.puck.center = self.center
         self.puck.velocity = vel
+
+    def reset_player(self):
+        self.player1.center = 400,40
+        self.player2.center = 400,560
     
     def update(self, dt):
         self.player1.Color = (1,0,0,1) 
@@ -46,8 +53,22 @@ class HockeyGame(Widget):
         #self.aimovements()
         self.player2.moveplayer()
 
-        #
+
         #self.puck.reset()
+        #self.reset_player()
+
+        #goal detection
+        if self.puck.x > self.width/2 - 62.5 and self.puck.x < self.width/2 + 125:
+            if self.puck.y>= self.height:
+                self.puck.reset()
+                self.reset_player()
+                self.player2.score +=1
+            
+            elif self.puck.y<=0:
+                self.puck.reset()
+                self.reset_player()
+                self.player1.score +=1
+
 
         #collisions
         if self.puck.x < 0 or self.puck.x > self.width:
@@ -204,6 +225,7 @@ class HockeyPuck(Widget):
     
     def reset(self):
         self.pos = self.parent.width/2 - self.width/2 ,self.parent.height/2 - self.height/2
+        self.velocity = Vector(0,0)
 
 #class HockeyRoot(FloatLayout):
 #    hockeygame = ObjectProperty(None)
