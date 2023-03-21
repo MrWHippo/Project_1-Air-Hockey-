@@ -29,6 +29,11 @@ class HockeyGame(Widget):
         self.player1_left = False
         self.player1_right = False
 
+        self.player2_up = False
+        self.player2_down = False
+        self.player2_left = False
+        self.player2_right = False
+
         self.player1.isplayer1 = True
         self.player2.isplayer1 = False
 
@@ -58,7 +63,7 @@ class HockeyGame(Widget):
         #self.reset_player()
 
         #goal detection
-        if self.puck.x > self.width/2 - 62.5 and self.puck.x < self.width/2 + 125:
+        if self.puck.x > self.width/2 - 62.5 and self.puck.x < self.width/2 + 62.5:
             if self.puck.y>= self.height:
                 self.puck.reset()
                 self.reset_player()
@@ -70,51 +75,62 @@ class HockeyGame(Widget):
                 self.player1.score +=1
 
 
-        #collisions
-        if self.puck.x < 0 or self.puck.x > self.width:
-            self.puck.velocity_x *= -1
-            print(self.puck.velocity_x)
-        
-        if self.puck.y < 0 or self.puck.y > self.height:
-            self.puck.velocity_y *= -1
+        #puck collisions with walls
+        #vertical walls
+        if self.puck.x <= 0 :
+            self.puck.velocity_x = abs(self.puck.velocity_x)
+        if self.puck.x >= self.width:
+            self.puck.velocity_x =  - abs(self.puck.velocity_x)
+        #horizontal walls
+        if self.puck.y <= 0 :
+            self.puck.velocity_y = abs(self.puck.velocity_x)
+        if self.puck.y >= self.height:
+            self.puck.velocity_y = - abs(self.puck.velocity_x)
 
-        #puck collisions
+        #puck collisions with players
         player1difference = self.vector_between(self.player1)
         player2difference = self.vector_between(self.player2)
 
+        #player1w
         if player1difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
             normalvector = Vector(self.player1.center[0]-self.puck.center[0], self.player1.center[1]-self.puck.center[1])
             yangle = normalvector.angle(Vector(1,0))
             xangle = normalvector.angle(Vector(0,1))
-            if yangle > -90 and yangle < 90:
+            if yangle >= -90 and yangle <= 90:
                 self.puck.velocity[1] *= -1.1
 
-            if xangle < -90 or xangle > 90:
+            if xangle <= -90 or xangle >= 90:
                 self.puck.velocity[0] *= -1.1
-            
-            if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
+
+            #temp solution for vy = 0
+            if self.puck.velocity[0] == 0:
                 self.puck.velocity[1] = 3
-                if self.puck.center[0] > self.player1.center[0]:
-                    self.puck.velocity[0] = (-self.puck.center[0]+self.player1.center[0])/4
-                else:
-                    self.puck.velocity[0] = (self.puck.center[0]-self.player1.center[0])/4
-        
+                for y in range(0,2):
+                    for x in range(0,10):
+                        if y ==1:
+                            self.puck.velocity[0] = 0.3*x
+                        else:
+                            self.puck.velocity[0] = -0.3*x 
+        #player2                    
         if player2difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
             normalvector = Vector(self.player2.center[0]-self.puck.center[0], self.player2.center[1]-self.puck.center[1])
             yangle = normalvector.angle(Vector(1,0))
             xangle = normalvector.angle(Vector(0,1))
-            if yangle > -90 and yangle < 90:
+            if yangle >= -90 and yangle <= 90:
                 self.puck.velocity[1] *= -1.1
 
-            if xangle < -90 or xangle > 90:
+            if xangle <= -90 or xangle >= 90:
                 self.puck.velocity[0] *= -1.1
 
-            if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
+            #temp solution for vy = 0
+            if self.puck.velocity[0] == 0:
                 self.puck.velocity[1] = 3
-                if self.puck.center[0] > self.player1.center[0]:
-                    self.puck.velocity[0] = (-self.puck.center[0]+self.player2.center[0])/4
-                else:
-                    self.puck.velocity[0] = (self.puck.center[0]-self.player2.center[0])/4
+                for y in range(0,2):
+                    for x in range(0,10):
+                        if y ==1:
+                            self.puck.velocity[0] = 0.3*x
+                        else:
+                            self.puck.velocity[0] = -0.3*x        
         
         #speed limit
         if self.puck.velocity[0]> 5:
@@ -145,6 +161,18 @@ class HockeyGame(Widget):
 
         if keycode[1] == "d":
             self.player1_right = False
+        #player2/ai
+        if keycode[1] == "up":
+            self.player2_up = False
+
+        if keycode[1] == "down":
+            self.player2_down = False
+
+        if keycode[1] == "left":
+            self.player2_left = False
+
+        if keycode[1] == "right":
+            self.player2_right = False
 
         return True
     
@@ -160,6 +188,18 @@ class HockeyGame(Widget):
 
         if keycode[1] == "d":
             self.player1_right = True
+        #player2/ai
+        if keycode[1] == "up":
+            self.player2_up = True
+
+        if keycode[1] == "down":
+            self.player2_down = True
+
+        if keycode[1] == "left":
+            self.player2_left = True
+
+        if keycode[1] == "right":
+            self.player2_right = True
 
         return True
     
@@ -186,7 +226,7 @@ class HockeyGame(Widget):
         
 
     def giveinputstatus(self):
-        return self.player1_down, self.player1_up, self.player1_left, self.player1_right
+        return self.player1_down, self.player1_up, self.player1_left, self.player1_right, self.player2_down, self.player2_up, self.player2_left, self.player2_right
 
 class Players(Widget):
     score = NumericProperty(0)
@@ -210,9 +250,26 @@ class Players(Widget):
             if self.player1_right == True:
                 if self.x+3 < self.parent.width - self.width:
                     self.x += 3
+        else:
+            if self.player2_up == True:
+                if self.y+3 < self.parent.height - self.height:
+                    self.y += 2
+
+            if self.player2_down == True:
+                if self.y-3 > 0:
+                    if self.y+3 > self.parent.height/2 :
+                        self.y -= 2
+
+            if self.player2_left == True:
+                if self.x-3 > 0:
+                    self.x -= 3
+
+            if self.player2_right == True:
+                if self.x+3 < self.parent.width - self.width:
+                    self.x += 3
     
     def getinputstatus(self):
-        self.player1_down, self.player1_up, self.player1_left, self.player1_right = self.parent.giveinputstatus()
+        self.player1_down, self.player1_up, self.player1_left, self.player1_right, self.player2_down, self.player2_up, self.player2_left, self.player2_right = self.parent.giveinputstatus()
 
 class HockeyPuck(Widget):
     velocity_x = NumericProperty(0)
