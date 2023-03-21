@@ -43,7 +43,7 @@ class HockeyGame(Widget):
 
         self.puck.move()
         self.player1.moveplayer()
-        self.aimovements()
+        #self.aimovements()
         self.player2.moveplayer()
 
         #
@@ -142,26 +142,26 @@ class HockeyGame(Widget):
 
         return True
     
-    def aimovements(self):
-        if self.puck.center[0] > self.player2.center[0]:
-            self.player2_up = True
-        else:
-            self.player2_up = False
-
-        if self.puck.center[0] < self.player2.center[0]:
-            self.player2_down = True
-        else:
-            self.player2_down = False
-        
-        if self.puck.center[1] > self.player2.center[1]:
-            self.player2_right = True
-        else:
-            self.player2_right = False
-        
-        if self.puck.center[1] < self.player2.center[1]:
-            self.player2_left = True
-        else:
-            self.player2_left = False
+    #def aimovements(self):
+    #    if self.puck.center[0] > self.player2.center[0]:
+    #        self.player2_up = True
+    #    else:
+    #        self.player2_up = False
+    #
+    #    if self.puck.center[0] < self.player2.center[0]:
+    #        self.player2_down = True
+    #    else:
+    #        self.player2_down = False
+    #    
+    #    if self.puck.center[1] > self.player2.center[1]:
+    #        self.player2_right = True
+    #    else:
+    #        self.player2_right = False
+    #    
+    #    if self.puck.center[1] < self.player2.center[1]:
+    #        self.player2_left = True
+    #    else:
+    #        self.player2_left = False
         
 
     def giveinputstatus(self):
