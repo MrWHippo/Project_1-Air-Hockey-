@@ -11,6 +11,9 @@ class DifficultyScreen(Widget):
     def CheckClick(self, num):
         print(num)
         self.parent.changescreen(num)
+    
+    def hide(self):
+        self.width = 0
 
     
 class HockeyGame(Widget):
@@ -41,7 +44,7 @@ class HockeyGame(Widget):
         self.player2.score = 0
         
 
-    def serve_puck(self, vel=(4, 0)):
+    def serve_puck(self, vel=(0, 0)):
         self.puck.center = self.center
         self.puck.velocity = vel
 
@@ -91,46 +94,84 @@ class HockeyGame(Widget):
         player1difference = self.vector_between(self.player1)
         player2difference = self.vector_between(self.player2)
 
-        #player1w
-        if player1difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
+        #player1
+        if player1difference <= (self.player1.width/2)**2 + (self.puck.width/2)**2:
             normalvector = Vector(self.player1.center[0]-self.puck.center[0], self.player1.center[1]-self.puck.center[1])
             yangle = normalvector.angle(Vector(1,0))
             xangle = normalvector.angle(Vector(0,1))
-            if yangle >= -90 and yangle <= 90:
-                self.puck.velocity[1] *= -1.1
 
-            if xangle <= -90 or xangle >= 90:
+            if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
+                self.puck.velocity[0] = 1
+                self.puck.velocity[1] =1
+
+            if abs(yangle) == 90:
+                self.puck.velocity[1] = abs(self.puck.velocity[1])*-1.1
+            if abs(xangle) == 90:
+                self.puck.velocity[0] = abs(self.puck.velocity[0])*-1.1
+            
+            if abs(xangle) > 0  and abs(xangle) < 180:
                 self.puck.velocity[0] *= -1.1
+            if abs(yangle) > 0  and abs(yangle) < 180:
+                self.puck.velocity[1] *= -1.1
+            
+            
 
-            #temp solution for vy = 0
-            if self.puck.velocity[0] == 0:
-                self.puck.velocity[1] = 3
-                for y in range(0,2):
-                    for x in range(0,10):
-                        if y ==1:
-                            self.puck.velocity[0] = 0.3*x
-                        else:
-                            self.puck.velocity[0] = -0.3*x 
-        #player2                    
+
+        #player2
         if player2difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
             normalvector = Vector(self.player2.center[0]-self.puck.center[0], self.player2.center[1]-self.puck.center[1])
             yangle = normalvector.angle(Vector(1,0))
             xangle = normalvector.angle(Vector(0,1))
-            if yangle >= -90 and yangle <= 90:
+
+            if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
+                self.puck.velocity[0] = 1
+                self.puck.velocity[1] =1
+
+            if abs(yangle) == 90:
+                self.puck.velocity[1] = abs(self.puck.velocity[1])*-1.1
+            if abs(xangle) == 90:
+                self.puck.velocity[0] = abs(self.puck.velocity[0])*-1.1
+            
+
+            if abs(xangle) > 0  and abs(xangle) < 180:
+                self.puck.velocity[0] *= -1.1
+            if abs(yangle) > 0  and abs(yangle) < 180:
                 self.puck.velocity[1] *= -1.1
 
-            if xangle <= -90 or xangle >= 90:
-                self.puck.velocity[0] *= -1.1
 
-            #temp solution for vy = 0
-            if self.puck.velocity[0] == 0:
-                self.puck.velocity[1] = 3
-                for y in range(0,2):
-                    for x in range(0,10):
-                        if y ==1:
-                            self.puck.velocity[0] = 0.3*x
-                        else:
-                            self.puck.velocity[0] = -0.3*x        
+        #if player1difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
+        #    normalvector = Vector(self.player1.center[0]-self.puck.center[0], self.player1.center[1]-self.puck.center[1])
+        #    yangle = normalvector.angle(Vector(1,0))
+        #    xangle = normalvector.angle(Vector(0,1))
+        #    if yangle > -90 and yangle < 90:
+        #        self.puck.velocity[1] *= -1.1
+
+        #    if xangle < -90 or xangle > 90:
+        #        self.puck.velocity[0] *= -1.1
+            
+        #    if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
+        #        self.puck.velocity[1] = 3
+        #        if self.puck.center[0] > self.player1.center[0]:
+        #            self.puck.velocity[0] = (-self.puck.center[0]+self.player1.center[0])/4
+        #        else:
+        #           self.puck.velocity[0] = (self.puck.center[0]-self.player1.center[0])/4
+        
+        #if player2difference <= (self.player2.width/2)**2 + (self.puck.width/2)**2:
+        #    normalvector = Vector(self.player2.center[0]-self.puck.center[0], self.player2.center[1]-self.puck.center[1])
+        #    yangle = normalvector.angle(Vector(1,0))
+        #    xangle = normalvector.angle(Vector(0,1))
+        #    if yangle > -90 and yangle < 90:
+        #        self.puck.velocity[1] *= -1.1
+
+        #    if xangle < -90 or xangle > 90:
+        #        self.puck.velocity[0] *= -1.1
+
+        #    if self.puck.velocity[0] == 0 and self.puck.velocity[1] == 0:
+        #        self.puck.velocity[1] = 3
+        #        if self.puck.center[0] > self.player1.center[0]:
+        #            self.puck.velocity[0] = (-self.puck.center[0]+self.player2.center[0])/4
+        #        else:
+        #            self.puck.velocity[0] = (self.puck.center[0]-self.player2.center[0])/4
         
         #speed limit
         if self.puck.velocity[0]> 5:
@@ -138,7 +179,7 @@ class HockeyGame(Widget):
             
         if self.puck.velocity[1]>5:
             self.puck.velocity[0] = 5
-    
+
     def vector_between(self, player):
         x = player.center[0] - self.puck.center[0]
         y = player.center[1] - self.puck.center[1]
@@ -281,8 +322,7 @@ class HockeyPuck(Widget):
         self.pos = Vector(*self.velocity) + self.pos
     
     def reset(self):
-        self.pos = self.parent.width/2 - self.width/2 ,self.parent.height/2 - self.height/2
-        self.velocity = Vector(0,0)
+        self.parent.serve_puck()
 
 #class HockeyRoot(FloatLayout):
 #    hockeygame = ObjectProperty(None)
